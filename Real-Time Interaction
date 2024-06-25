@@ -1,0 +1,27 @@
+importstreamlitasst
+importpickle
+fromkeras.preprocessing.sequenceimportpad_sequences
+from keras.models import load_model
+importplotly.expressaspx import
+pandas as pd
+token_form=pickle.load(open('tokenizer.pkl','rb'))
+model=load_model("model.h5") 
+if name == 'main':
+st.title('DepressionDetectionApp')
+st.subheader("Enter your feelings")
+sentence=st.text_input("Typeinsidethebox,Howdoyoufeel")
+predict_btt = st.button("Predict") 
+ifpredict_btt:
+#Definethepost st.write("Post:"+sentence) twt=[sentence] twt=token_form.texts_to_sequences(twt) twt=pad_sequences(twt,maxlen=50)
+#Predicttheideation prediction=model.predict(twt)[0][0] #Printtheprediction if(prediction>0.5):
+st.warning("Depressiondetected") else:
+st.success("Nodeprssiondetected") class_label=["Depressiondetected","Nodeprssiondetected"] prob_list=[prediction*100,100-prediction*100] prob_dict={"Depressiondetected/Nodeprssion
+detected":class_label,"Probability":prob_list} df_prob=pd.DataFrame(prob_dict)
+fig=px.bar(df_prob,x='Depressiondetected/Nodeprssion detected', y='Probability')
+model_option="LSTM+GLove" ifprediction>0.5:
+fig.update_layout(title_text="{}model-predictionprobability comparison between Depression detected and No deprssion detected".format (model_option))
+st.info("The{}modelpredictsthatthereisahigher{} probability that there is depression, You need urgent medical assistanceTry contacting AI therapist http://localhost:8502/".format(model_option,prediction*100))
+else: fig.update_layout(title_text="{}model-predictionprobability
+comparison between Depression detected and No deprssion detected".format(model_option))
+st.info("Your post content is rather abstract, The {} model predictsthatthereaalmostequal{}probabilitythatthepostcontentis Potential Suicide Post compared to a {} probability of being Non Suicide Post".format(model_option,prediction*100,100-prediction*100))
+st.plotly_chart(fig,use_container_width=True)
